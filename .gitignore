@@ -1,2 +1,6 @@
-.idea/	
+
+.idea/
 node_modules/
+.DS_Store
+README.md
+How-to-use.txt
