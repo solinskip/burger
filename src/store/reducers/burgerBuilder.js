@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     ingredients: null,
     totalPrice: 4,
-    error: false
+    error: false,
+    building: false
 };
 
 const INGREDIENT_PRICES = {
@@ -27,7 +28,8 @@ const updateIngredient = (state, action, type) => {
             // Override ingredient in coped ingredients
             [action.ingredientName]: state.ingredients[action.ingredientName] + ingredientCount
         },
-        totalPrice: state.totalPrice + ingredientPrice
+        totalPrice: state.totalPrice + ingredientPrice,
+        building: true
     };
 }
 
@@ -49,7 +51,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ingredients: action.ingredients,
                 totalPrice: 4,
-                error: false
+                error: false,
+                building: false
             };
         case actionTypes.FETCH_INGREDIENTS_FAILED:
             return {...state, error: true};

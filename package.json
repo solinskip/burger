@@ -92,5 +92,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "reactotron-react-js": "^3.3.7"
   }
 }
