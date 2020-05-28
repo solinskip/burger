@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment, lazy, Suspense} from 'react';
 import {connect} from 'react-redux';
-import {Redirect, Route, Switch, withRouter} from "react-router-dom";
+import {Route, withRouter} from "react-router-dom";
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
-import Checkout from './containers/Checkout/Checkout';
-import Orders from "./containers/Orders/Orders";
 import Auth from './containers/Auth/Auth';
-import Logout from './containers/Auth/Logout/Logout';
 import {checkAuthState} from './store/actions/index';
+import Spinner from "./components/UI/Spinner/Spinner";
 
-// const Checkout = lazy(() => import('./containers/Checkout/Checkout'));
+const Checkout = lazy(() => import('./containers/Checkout/Checkout'));
+const Orders = lazy(() => import('./containers/Orders/Orders'));
+const Logout = lazy(() => import('./containers/Auth/Logout/Logout'));
 
 class App extends Component {
     componentDidMount() {
@@ -17,21 +17,22 @@ class App extends Component {
     }
 
     render() {
-        let routes = this.props.isAuth
-            ? <Switch>
+        let routesRequiringAuth = this.props.isAuth
+            ? <Fragment>
                 <Route path="/checkout" component={Checkout}/>
                 <Route path="/orders" component={Orders}/>
                 <Route path="/logout" component={Logout}/>
-            </Switch>
+            </Fragment>
             : null;
 
         return (
             <div>
                 <Layout>
-                    <Route path="/" exact component={BurgerBuilder}/>
-                    <Route path="/auth" component={Auth}/>
-                    {/*<Route path="/checkout" render={() => <Suspense fallback={<div>Loading..</div>}><Checkout/></Suspense>}/>*/}
-                    {routes}
+                    <Suspense fallback={<Spinner/>}>
+                        <Route path="/" exact component={BurgerBuilder}/>
+                        <Route path="/auth" component={Auth}/>
+                        {routesRequiringAuth}
+                    </Suspense>
                 </Layout>
             </div>
         );
