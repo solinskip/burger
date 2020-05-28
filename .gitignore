@@ -1,5 +1,6 @@
-
+build/
 .idea/
+.firebase/
 node_modules/
 .DS_Store
 README.md
